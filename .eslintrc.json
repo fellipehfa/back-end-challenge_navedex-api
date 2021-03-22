@@ -5,8 +5,7 @@
     },
     "extends": [
         "standard",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -14,8 +13,7 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint",
-        "prettier"
+        "@typescript-eslint"
     ],
     "rules": {
       "no-use-before-define": "off",
@@ -28,8 +26,7 @@
         {
           "ts": "never"
         }
-      ],
-      "prettier/prettier": "error"
+      ]
     },
     "settings": {
       "import/resolver": {
