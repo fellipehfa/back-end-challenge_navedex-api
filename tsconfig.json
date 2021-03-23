@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es6"
+    ],
     "target": "es2017",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": false,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
