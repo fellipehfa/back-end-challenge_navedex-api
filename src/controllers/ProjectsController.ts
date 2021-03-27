@@ -4,12 +4,12 @@ import { ProjectsRepository } from '../repositories/ProjectsRepository'
 
 class ProjectsController {
   async create (request: Request, response: Response) {
-    const { name } = request.body
+    const { project } = request.body
 
     const projectsRepository = getCustomRepository(ProjectsRepository)
 
     const projectAlreadyExists = await projectsRepository.findOne({
-      name
+      project
     })
 
     if (projectAlreadyExists) {
@@ -18,13 +18,13 @@ class ProjectsController {
       })
     }
 
-    const project = projectsRepository.create({
-      name
+    const addProject = projectsRepository.create({
+      project
     })
 
-    await projectsRepository.save(project)
+    await projectsRepository.save(addProject)
 
-    return response.json(project)
+    return response.status(201).json(addProject)
   }
 }
 

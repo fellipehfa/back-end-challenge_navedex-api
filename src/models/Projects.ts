@@ -7,7 +7,7 @@ class Projects {
   readonly id: string;
 
   @Column()
-  name: string;
+  project: string;
 
   @CreateDateColumn()
   created_at: Date;

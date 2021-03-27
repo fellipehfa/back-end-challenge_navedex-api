@@ -11,7 +11,7 @@ export class CreateProject1616711675595 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true
           }, {
-            name: 'name',
+            name: 'project',
             type: 'varchar'
           }, {
             name: 'created_at',

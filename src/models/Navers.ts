@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 
@@ -7,7 +8,7 @@ class Navers {
   readonly id: string;
 
   @Column()
-  name: string;
+  naver: string;
 
   @Column()
   birthdate: Date;

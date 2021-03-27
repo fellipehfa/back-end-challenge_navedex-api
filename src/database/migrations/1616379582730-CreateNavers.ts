@@ -11,7 +11,7 @@ export class CreateNavers1616379582730 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true
           }, {
-            name: 'name',
+            name: 'naver',
             type: 'varchar',
             length: '255'
           }, {
