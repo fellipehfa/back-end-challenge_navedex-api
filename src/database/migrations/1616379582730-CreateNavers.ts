@@ -1,3 +1,5 @@
+/* eslint-disable no-sequences */
+/* eslint-disable no-unused-expressions */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class CreateNavers1616379582730 implements MigrationInterface {
@@ -36,7 +38,7 @@ export class CreateNavers1616379582730 implements MigrationInterface {
           }
         ]
       })
-    )
+    ), true
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {

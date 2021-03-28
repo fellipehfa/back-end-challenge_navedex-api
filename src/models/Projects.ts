@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
+import { Navers } from './Navers'
 
 @Entity('projects')
 class Projects {
@@ -11,6 +12,14 @@ class Projects {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @ManyToMany(type => Navers) // , { eager: true }
+  @JoinTable({
+    name: 'navers',
+    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
+  })
+  Team: Navers[];
 
   constructor () {
     if (!this.id) {
