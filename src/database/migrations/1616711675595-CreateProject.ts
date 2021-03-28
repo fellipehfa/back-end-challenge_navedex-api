@@ -1,3 +1,5 @@
+/* eslint-disable no-sequences */
+/* eslint-disable no-unused-expressions */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class CreateProject1616711675595 implements MigrationInterface {
@@ -20,7 +22,7 @@ export class CreateProject1616711675595 implements MigrationInterface {
           }
         ]
       })
-    )
+    ), true
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {

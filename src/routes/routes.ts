@@ -15,7 +15,7 @@ router.post('/users', usersController.create)
 
 router.post('/navers', naversController.create)
 router.get('/navers', naversController.index)
-// router.get('/navers/:name', naversController.show)
+router.get('/:naver', naversController.show)
 
 router.post('/projects', projectsController.create)
 // router.get('/projects', projectsController.index)

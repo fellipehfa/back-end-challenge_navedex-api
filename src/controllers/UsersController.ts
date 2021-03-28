@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
 import { UsersRepository } from '../repositories/UsersRepository'
+// import * as yup from 'yup'
+// import { AppError } from '../error/AppError'
 
 class UsersController {
   async create (request: Request, response: Response) {
@@ -8,7 +10,7 @@ class UsersController {
 
     const usersRepository = getCustomRepository(UsersRepository)
 
-    const userAlreadyExists = await usersRepository.findOne({
+    const userAlreadyExists = await usersRepository.find({
       email
     })
 
