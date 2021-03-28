@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm'
 import { NaversRepository } from '../repositories/NaversRepository'
 import * as yup from 'yup'
 import { AppError } from '../error/AppError'
+import { relative } from 'node:path'
 
 class NaversController {
   async create (request: Request, response: Response) {
@@ -48,19 +49,45 @@ class NaversController {
     return response.json(all)
   }
 
-  async show (request: Request, response: Response) {
-    const naver = request.params.naver
-
+  async show (naver: string) {
     const naversRepository = getCustomRepository(NaversRepository)
 
-    const showNaver = await naversRepository.find({
+    const findNaver = await naversRepository.find({
       where: { naver }
     })
 
-    if (showNaver) {
-      return response.status(200).json(showNaver)
+    if (findNaver) {
+      return findNaver
     } else {
       throw new AppError(500, 'Naver does not found!', 'Error > NaversController > show')
+    }
+  }
+
+  async update (naver: string) {
+    const naversRepository = getCustomRepository(NaversRepository)
+
+    const findNaver = await naversRepository.find({
+      where: { naver }
+    })
+
+    if (findNaver) {
+      return findNaver
+    } else {
+      throw new AppError(500, 'Naver does not found!', 'Error > NaversController > update')
+    }
+  }
+
+  async erase (naver: string) {
+    const naversRepository = getCustomRepository(NaversRepository)
+
+    const findNaver = await naversRepository.find({
+      where: { naver }
+    })
+
+    if (findNaver) {
+      return findNaver
+    } else {
+      throw new AppError(500, 'Naver does not found!', 'Error > NaversController > delete')
     }
   }
 }
