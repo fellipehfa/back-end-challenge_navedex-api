@@ -12,16 +12,16 @@ class ProjectNavers {
   @Column()
   project_id: string;
 
-  @ManyToOne(() => Projects)
-  @JoinColumn({ name: 'project_id' })
-  project: Projects
+  // @ManyToOne(() => Projects)
+  // @JoinColumn({ name: 'project_id' })
+  // project: Projects
 
   @Column()
   naver_id: string;
 
-  @ManyToOne(() => Navers)
-  @JoinColumn({ name: 'naver_id' })
-  navers: Navers[]
+  // @ManyToOne(() => Navers)
+  // @JoinColumn({ name: 'naver_id' })
+  // navers: Navers[]
 
   constructor () {
     if (!this.id) {

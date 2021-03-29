@@ -12,16 +12,16 @@ class UserNavers {
   @Column()
   user_id: string;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
-  user: User
+  // @ManyToOne(() => User)
+  // @JoinColumn({ name: 'user_id' })
+  // user: User
 
   @Column()
   naver_id: string;
 
-  @ManyToOne(() => Navers)
-  @JoinColumn({ name: 'naver_id' })
-  UserTeam: Navers[]
+  // @ManyToOne(() => Navers)
+  // @JoinColumn({ name: 'naver_id' })
+  // UserTeam: Navers[]
 
   constructor () {
     if (!this.id) {

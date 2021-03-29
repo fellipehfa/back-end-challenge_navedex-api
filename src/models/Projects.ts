@@ -17,13 +17,13 @@ class Projects {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @ManyToMany(type => Navers) // , { eager: true }
-  @JoinTable({
-    name: 'navers',
-    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
-  })
-  Team: Navers[];
+  // @ManyToMany(type => Navers) // , { eager: true }
+  // @JoinTable({
+  //   name: 'navers',
+  //   joinColumn: { name: 'project_id', referencedColumnName: 'id' },
+  //   inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
+  // })
+  // // Team: Navers[];
 
   constructor () {
     if (!this.id) {

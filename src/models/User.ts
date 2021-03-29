@@ -30,13 +30,13 @@ class User {
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToMany(type => Navers) // , { eager: true }
-  @JoinTable({
-    name: 'navers',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
-  })
-  Navers: Navers[];
+  // @ManyToMany(type => Navers) // , { eager: true }
+  // @JoinTable({
+  //   name: 'navers',
+  //   joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  //   inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
+  // })
+  // Navers: Navers[];
 
   constructor () {
     if (!this.id) {

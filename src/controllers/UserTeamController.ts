@@ -20,20 +20,23 @@ class UserTeamController {
     }
 
     var newArray: UserNavers[] = new Array()
-    for (const naver of navers) {
-      const team = await naversRepository.findOne({ naver })
-      if (!team) {
-        throw new AppError(400, 'Could not create a team', 'Error > UserTeamController> teamMaker > newArray')
+    for (const naver_id in navers) {
+      console.log(naver_id)
+      const naver = await naversRepository.findOne({
+        where: { id: naver_id }
+      })
+      if (!naver) {
+        throw new AppError(400, 'Could not create a naver', 'Error > UserTeamController> teamMaker > newArray')
       }
       newArray.push(userNaversRepository.create({
         user_id: user_id,
-        naver_id: team.id
+        naver_id: naver.id
       }))
     }
     await userNaversRepository.save(newArray)
     return await usersRepository.findOne({
-      where: { id: user_id },
-      relations: ['UserTeam']
+      where: { id: user_id }
+      // relations: ['UserTeam']
     })
   }
 }

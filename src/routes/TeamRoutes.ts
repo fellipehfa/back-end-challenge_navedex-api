@@ -7,9 +7,9 @@ const userTeamController = new UserTeamController()
 
 userTeamRouter.post('/users/:id/team', async (request, response) => {
   const user_id: string = request.params.id
-  const { naver_id } = request.body
+  const { navers_id } = request.body
 
-  const addDocSpecialization = await userTeamController.teamMaker(user_id, naver_id)
+  const addDocSpecialization = await userTeamController.teamMaker(user_id, navers_id)
   return response.status(201).json(addDocSpecialization)
 })
 

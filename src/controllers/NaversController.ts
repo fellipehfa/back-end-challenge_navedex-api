@@ -1,58 +1,38 @@
 /* eslint-disable camelcase */
-import { Request, Response } from 'express'
-import { getCustomRepository } from 'typeorm'
-import { NaversRepository } from '../repositories/NaversRepository'
-import * as yup from 'yup'
+import { getCustomRepository, Like } from 'typeorm'
 import { AppError } from '../error/AppError'
+import { NaversRepository } from '../repositories/NaversRepository'
 
 class NaversController {
-  async create (request: Request, response: Response) {
-    const { naver, birthdate, admission_date, job_role } = request.body
-
-    const schema = yup.object().shape({
-      naver: yup.string().required(),
-      birthdate: yup.string().required(),
-      admission_date: yup.string().required(),
-      job_role: yup.string().required()
-    })
-
-    try {
-      await schema.validate(request.body, { abortEarly: false })
-    } catch (err) {
-      throw new AppError(400, err, 'Error > NaverController > Validation')
-    }
-
+  async create (naver: string, birthdate: Date, admission_date: Date, job_role: string) {
     const naversRepository = getCustomRepository(NaversRepository)
 
     const addNaver = naversRepository.create({
-      naver, birthdate, admission_date, job_role
+      naver: naver,
+      birthdate: birthdate,
+      admission_date: admission_date,
+      job_role: job_role
     })
 
-    await naversRepository.save(addNaver)
-
-    return response.status(201).json(addNaver)
+    return await naversRepository.save(addNaver)
   }
 
-  async index (request: Request, response: Response) {
+  async show (naver: string) {
     const naversRepository = getCustomRepository(NaversRepository)
+    let showNaver = null
 
-    const all = await naversRepository.find()
-
-    return response.json(all)
-  }
-
-  async show (request) {
-    const { naver } = request.query
-
-    const naversRepository = getCustomRepository(NaversRepository)
-
-    const showNaver = await naversRepository.find({
-      where: { naver }
-    })
+    if (naver) {
+      showNaver = await naversRepository.find({
+        naver: Like(`%${naver}%`)
+      })
+    } else {
+      showNaver = await naversRepository.find()
+    }
 
     if (!showNaver) {
       throw new AppError(500, 'Naver not found!', 'Error > NaversController > show')
-    } return showNaver
+    }
+    return showNaver
   }
 
   async update (id: string, naver: string, birthdate: Date, admission_date: Date, job_role: string) {
