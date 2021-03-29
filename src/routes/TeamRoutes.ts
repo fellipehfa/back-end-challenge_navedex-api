@@ -1,10 +1,16 @@
+/* eslint-disable camelcase */
 import { Router } from 'express'
 import { UserTeamController } from '../controllers/UserTeamController'
 
 const userTeamRouter = Router()
-
 const userTeamController = new UserTeamController()
 
-userTeamRouter.post('/team', userTeamController.teamMaker)
+userTeamRouter.post('/users/:id/team', async (request, response) => {
+  const user_id: string = request.params.id
+  const { naver_id } = request.body
+
+  const addDocSpecialization = await userTeamController.teamMaker(user_id, naver_id)
+  return response.status(201).json(addDocSpecialization)
+})
 
 export { userTeamRouter }

@@ -19,6 +19,11 @@ export class CreateProject1616711675595 implements MigrationInterface {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()'
+          }, {
+            name: 'deleted_at',
+            type: 'timestamp',
+            default: 'null',
+            isNullable: true
           }
         ]
       })

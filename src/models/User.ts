@@ -1,5 +1,7 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable camelcase */
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
+import * as bcrypt from 'bcrypt'
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { Navers } from './Navers'
 
@@ -12,7 +14,18 @@ class User {
   email: string;
 
   @Column()
-  password: string;
+  public password: string;
+
+  @Column()
+  public jwtToken: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword (): Promise<void> {
+    if (!!this.password) {
+      this.password = await bcrypt.hash(this.password, 10)
+    }
+  }
 
   @CreateDateColumn()
   created_at: Date;
@@ -23,7 +36,7 @@ class User {
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
   })
-  Team: Navers[];
+  Navers: Navers[];
 
   constructor () {
     if (!this.id) {

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { Navers } from './Navers'
 
@@ -13,6 +13,9 @@ class Projects {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 
   @ManyToMany(type => Navers) // , { eager: true }
   @JoinTable({

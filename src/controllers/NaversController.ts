@@ -4,7 +4,6 @@ import { getCustomRepository } from 'typeorm'
 import { NaversRepository } from '../repositories/NaversRepository'
 import * as yup from 'yup'
 import { AppError } from '../error/AppError'
-import { relative } from 'node:path'
 
 class NaversController {
   async create (request: Request, response: Response) {
@@ -25,13 +24,6 @@ class NaversController {
 
     const naversRepository = getCustomRepository(NaversRepository)
 
-    const naverAlreadyExists = await naversRepository.findOne({
-      naver
-    })
-
-    if (naverAlreadyExists) {
-      throw new AppError(400, 'Naver already exists!', 'Error > NaversController > naverAlreadyExists')
-    }
     const addNaver = naversRepository.create({
       naver, birthdate, admission_date, job_role
     })
@@ -49,45 +41,47 @@ class NaversController {
     return response.json(all)
   }
 
-  async show (naver: string) {
+  async show (request) {
+    const { naver } = request.query
+
     const naversRepository = getCustomRepository(NaversRepository)
 
-    const findNaver = await naversRepository.find({
+    const showNaver = await naversRepository.find({
       where: { naver }
     })
 
-    if (findNaver) {
-      return findNaver
+    if (!showNaver) {
+      throw new AppError(500, 'Naver not found!', 'Error > NaversController > show')
+    } return showNaver
+  }
+
+  async update (id: string, naver: string, birthdate: Date, admission_date: Date, job_role: string) {
+    const naversRepository = getCustomRepository(NaversRepository)
+
+    const updateNaver = await naversRepository.findOne({ id: id })
+
+    if (updateNaver) {
+      updateNaver.naver = naver != null ? naver : updateNaver.naver
+      updateNaver.birthdate = birthdate != null ? birthdate : updateNaver.birthdate
+      updateNaver.admission_date = admission_date != null ? admission_date : updateNaver.admission_date
+      updateNaver.job_role = job_role != null ? job_role : updateNaver.job_role
+      return await naversRepository.save(updateNaver)
     } else {
-      throw new AppError(500, 'Naver does not found!', 'Error > NaversController > show')
+      throw new AppError(500, 'Could not update Naver', 'Error > NaversController > update')
     }
   }
 
-  async update (naver: string) {
+  async delete (id: string) {
     const naversRepository = getCustomRepository(NaversRepository)
 
-    const findNaver = await naversRepository.find({
-      where: { naver }
-    })
+    const deleteNaver = await naversRepository.findOne({ id: id })
 
-    if (findNaver) {
-      return findNaver
+    if (!deleteNaver) {
+      throw new AppError(500, 'Naver not found!', 'Error > NaversController > delete')
     } else {
-      throw new AppError(500, 'Naver does not found!', 'Error > NaversController > update')
-    }
-  }
-
-  async erase (naver: string) {
-    const naversRepository = getCustomRepository(NaversRepository)
-
-    const findNaver = await naversRepository.find({
-      where: { naver }
-    })
-
-    if (findNaver) {
-      return findNaver
-    } else {
-      throw new AppError(500, 'Naver does not found!', 'Error > NaversController > delete')
+      deleteNaver.deleted_at = new Date()
+      await naversRepository.save(deleteNaver)
+      console.log('Naver soft deleted', deleteNaver)
     }
   }
 }

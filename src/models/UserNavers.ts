@@ -21,7 +21,7 @@ class UserNavers {
 
   @ManyToOne(() => Navers)
   @JoinColumn({ name: 'naver_id' })
-  naver: Navers
+  UserTeam: Navers[]
 
   constructor () {
     if (!this.id) {
