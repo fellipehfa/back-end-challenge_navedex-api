@@ -1,4 +1,3 @@
-
 # Back-end Challenge - Navedex API
 Antes de tudo eu configurei um padrão de código com o ESLint, para facilitar o desenvolvimento.
 
@@ -29,13 +28,18 @@ Para importar as rotas de test basta clicar no botão abaixo e abir com o Insomn
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NavedexAPI&uri=https%3A%2F%2Fraw.githubusercontent.com%2Ffellipehfa%2Fback-end-challenge_navedex-api%2Fmain%2FInsomniaExports%2FInsomnia_Documentations_NavedexAPI.json)
 
+Caso esteja utilizando o Postman, existe um arquivo JSON na pasta "InsomniaExports".
+
+No próprio corpo da documentação tem algumas dicas de como utilizar, fique atento ao que elas solicitam.
+
 **IMPORTANTE**: Antes de clicar em "send" verifique as rotas que solicitam um ID  como parâmetro. Alem disso, nas rotas de criação existem mais de um elemento. Para que funcione,  é necessário enviar um elemento de cada vez, mas eu já deixei todas para facilitar a criação. As rotas "Index / Show" podem ser filtradas a partir da aba "query" do insomnia, basta adicionar o filtro como desejar.
 
 ## Para iniciar a plicação:
 
 Para instalar as dependências:
 
-    yarn init
+    yarn
+
 Para rodar as migrations:
 
     yarn typeorm migrations: run
@@ -46,10 +50,74 @@ Para rodar o projeto:
 
   No console deve aparecer o log:
 
-
     Server's running!⚡⚡⚡
 
 Já está pronto para uso das rotas no Insomnia!!
 
+Caso queira testar, basta rodar:
+
+    yarn test
+
 ## Dificuldades
+
+### Token / Debugar o código
+
+Senti que me falta conhecimento para debugar meu código, perdi muito tempo procurando os erros que eventualmente apareciam, isso me custou tempo que eu poderia ter utilizado para tentar implantar o Token de acesso dos users.
+
+### Debugar o código
+
+Como citado acima, tive um pouco de dificuldades ao debugar o código, acabei encontrando meus erros de maneira não convencional, com vários "console.logs". Preciso aprender a utilizar a própria IDE para facilitar essa interação durante o desenvolvimento. O Typescript com o ESLint ajuda um pouco a identificar erros superficiais, mas fica faltando a ferramenta de debug para tratar os erros que não são mostrados na superfície.
+
+### Tests
+
+Tentei adicionar alguns tests com o Jest, mas acabei me embolando um pouco com eles, apenas as rotas de criação e de update passaram no test, as outras foram comentadas.
+
+### Login
+
+Faltou a rota de login, criei uma rota Get apenas para mostrar os Users. Preciso estudar um pouco mais a documentação do Bcrypt para verificar como fazer as validações das senhas com hash
+
+### Rotas Show
+
+Preciso estudar mais a documentação do TypeORM para mostrar apenas as propriedades que eu quero das tabelas relacionadas. Atualmente elas mostram todos os dados que constam na tabelas, exemplo:
+
+    [
+	  {
+	    "id": "1e88b5a6-6167-423b-8578-5c5a90bf3986",
+	    "naver": "Fellipe",
+	    "birthdate": "2020-04-07T03:00:00.000Z",
+	    "admission_date": "2020-04-07T03:00:00.000Z",
+	    "job_role": "New Naver",
+	    "created_at": "2021-03-30T21:20:02.992Z",
+	    "deleted_at": null,
+	    "projects": [
+				      {
+				        "id": "88516c94-2ea7-4cd7-832d-5597ccc056e8",
+				        "project": "Navedex API",
+				        "created_at": "2021-03-30T21:16:54.609Z",
+				        "deleted_at": null
+				      }
+					]
+	  }
+	]
+
+Está retornando todos os elementos dentro do project do naver, quando na verdade deveria retornar apenas os parâmetros que eu solicitar. Exemplo:
+
+    [
+	  {
+	    "id": "1e88b5a6-6167-423b-8578-5c5a90bf3986",
+	    "naver": "Fellipe",
+	    "birthdate": "2020-04-07T03:00:00.000Z",
+	    "admission_date": "2020-04-07T03:00:00.000Z",
+	    "job_role": "New Naver",
+	    "created_at": "2021-03-30T21:20:02.992Z",
+	    "deleted_at": null,
+	    "projects": [
+				      {
+				        "id": "88516c94-2ea7-4cd7-832d-5597ccc056e8",
+				        "project": "Navedex API",
+				      }
+					]
+	  }
+	]
+A mesma coisa acontece nos outros parâmetros Show.
 

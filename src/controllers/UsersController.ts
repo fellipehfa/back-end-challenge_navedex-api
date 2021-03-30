@@ -21,7 +21,7 @@ class UsersController {
     return await usersRepository.save(addUser)
   }
 
-  async show (email: string) {
+  async login (email: string) {
     const usersRepository = getCustomRepository(UsersRepository)
     let showUser = null
 

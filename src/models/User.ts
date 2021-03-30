@@ -1,7 +1,8 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable camelcase */
 import * as bcrypt from 'bcrypt'
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
+// import {} from 'jsonwebtoken'
+import { AfterLoad, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { Navers } from './Navers'
 
@@ -16,14 +17,26 @@ class User {
   @Column()
   public password: string;
 
-  // @Column()
-  // public token: string;
+  private tempPassword: string;
+
+  @Column()
+  public token: string;
+
+  public toString (): string {
+    return `${this.email}`
+  }
+
+  @AfterLoad()
+  private loadTempPassword (): void {
+    this.tempPassword = this.password
+  }
 
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword (): Promise<void> {
-    if (!!this.password) {
+    if (this.tempPassword !== this.password) {
       this.password = await bcrypt.hash(this.password, 10)
+      this.loadTempPassword()
     }
   }
 

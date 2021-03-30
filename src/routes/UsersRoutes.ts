@@ -23,9 +23,9 @@ usersRouter.post('/users', async (request, response) => {
   return response.status(200).json(addUser)
 })
 
-usersRouter.get('/users', async (request, response) => {
+usersRouter.get('/users/auth', async (request, response) => {
   const user = (request.query as any).email
-  const showUser = await usersController.show(user)
+  const showUser = await usersController.login(user)
   return response.status(200).json(showUser)
 })
 
