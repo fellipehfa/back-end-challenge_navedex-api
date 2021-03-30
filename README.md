@@ -1,8 +1,10 @@
+
 # Back-end Challenge - Navedex API
 Antes de tudo eu configurei um padrão de código com o ESLint, para facilitar o desenvolvimento.
 
 Para o desenvolvimento desta API foi utilizado Typescript, TypeORM, Docker container com image Postgres, Express, Bcrypt para esconder o password dos Users, para os testes de integração utilizei o Jest e o Supertest e para as validações o Yup.
 
+Mative a pasta .vscode e alguns comentários para não acusar erros do ESLint ou palavras desconhecidas.
 
 
 ## First of all:
@@ -28,13 +30,17 @@ Para importar as rotas de test basta clicar no botão abaixo e abir com o Insomn
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NavedexAPI&uri=https%3A%2F%2Fraw.githubusercontent.com%2Ffellipehfa%2Fback-end-challenge_navedex-api%2Fmain%2FInsomniaExports%2FInsomnia_Documentations_NavedexAPI.json)
 
-Caso esteja utilizando o Postman, existe um arquivo JSON na pasta "InsomniaExports".
+Pode ser que ao clicar em "IMPORT NAVEDEXAPI" te leve a um link dentro do meu github ao invés de solicitar que abra com o Insomnia. Neste caso basta você copiar a URL da qual foi transferido e importar manualmente pelo Insomina. Para isso abra o Insomnia > Applicarion > Preferences > Data > Import Data > From URL > Passe a URL > Fetch and Import.
 
-No próprio corpo da documentação tem algumas dicas de como utilizar, fique atento ao que elas solicitam.
+Caso esteja utilizando o Postman, existe um arquivo JSON na pasta "InsomniaExports". Abra o Postman > Import > Import File > Selecione o arquivo JSON ou você pode Importar pelo link gerado no botão acima, selecionando "Import From Link" ao invés de "Import File".
+
+No próprio corpo da documentação tem algumas dicas de como utilizar cada rota, fique atento ao que elas solicitam.
 
 **IMPORTANTE**: Antes de clicar em "send" verifique as rotas que solicitam um ID  como parâmetro. Alem disso, nas rotas de criação existem mais de um elemento. Para que funcione,  é necessário enviar um elemento de cada vez, mas eu já deixei todas para facilitar a criação. As rotas "Index / Show" podem ser filtradas a partir da aba "query" do insomnia, basta adicionar o filtro como desejar.
 
 ## Para iniciar a plicação:
+
+**IMPORTANTE**: Execute os codigos abaixo em sequencia.
 
 Para instalar as dependências:
 

@@ -1,8 +1,3 @@
-/*
- * For a detailed explanation regarding each configuration property and type check, visit:
- * https:
- */
-
 export default {
   bail: true,
   clearMocks: true,
