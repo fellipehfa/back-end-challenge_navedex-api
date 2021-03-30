@@ -23,10 +23,13 @@ class NaversController {
 
     if (naver) {
       showNaver = await naversRepository.find({
-        naver: Like(`%${naver}%`)
+        where: { naver: Like(`%${naver}%`) },
+        relations: ['projects']
       })
     } else {
-      showNaver = await naversRepository.find()
+      showNaver = await naversRepository.find({
+        relations: ['projects']
+      })
     }
 
     if (!showNaver) {

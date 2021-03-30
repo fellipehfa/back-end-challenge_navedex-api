@@ -1,4 +1,4 @@
-import { getCustomRepository, Like } from 'typeorm'
+import { getCustomRepository } from 'typeorm'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { AppError } from '../error/AppError'
 
@@ -26,11 +26,14 @@ class UsersController {
     let showUser = null
 
     if (email) {
-      showUser = await usersRepository.find({
-        email: Like(`%${email}%`)
+      showUser = await usersRepository.findOne({
+        where: { email: email },
+        relations: ['navers']
       })
     } else {
-      showUser = await usersRepository.find()
+      showUser = await usersRepository.find({
+        relations: ['navers']
+      })
     }
 
     if (!showUser) {

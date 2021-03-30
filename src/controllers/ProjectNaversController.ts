@@ -24,8 +24,9 @@ class ProjectNaversController {
       const naver = await naversRepository.findOne({
         where: { id: naver_id }
       })
-
+      console.log(naver)
       if (!naver) {
+        console.log(naver)
         throw new AppError(400, 'Could not create a naver', 'Error > ProjectNaversController> create > newArray')
       }
 

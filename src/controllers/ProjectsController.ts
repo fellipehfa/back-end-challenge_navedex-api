@@ -26,10 +26,13 @@ class ProjectsController {
 
     if (project) {
       showProject = await projectsRepository.find({
-        project: Like(`%${project}%`)
+        where: { project: Like(`%${project}%`) },
+        relations: ['navers']
       })
     } else {
-      showProject = await projectsRepository.find()
+      showProject = await projectsRepository.find({
+        relations: ['navers']
+      })
     }
 
     if (!showProject) {

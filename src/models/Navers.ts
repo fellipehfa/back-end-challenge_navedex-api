@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
+import { Projects } from './Projects'
 
 @Entity('navers')
 class Navers {
@@ -24,6 +25,14 @@ class Navers {
 
   @DeleteDateColumn()
   deleted_at: Date;
+
+  @ManyToMany(type => Projects) // , { eager: true }
+  @JoinTable({
+    name: 'project_navers',
+    joinColumn: { name: 'naver_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'project_id', referencedColumnName: 'id' }
+  })
+  projects: Projects[];
 
   constructor () {
     if (!this.id) {

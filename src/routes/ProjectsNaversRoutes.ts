@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Router } from 'express'
 import { ProjectNaversController } from '../controllers/ProjectNaversController'
 
