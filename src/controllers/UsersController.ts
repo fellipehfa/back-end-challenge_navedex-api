@@ -1,24 +1,9 @@
-import { Request, Response } from 'express'
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, Like } from 'typeorm'
 import { UsersRepository } from '../repositories/UsersRepository'
-import * as yup from 'yup'
 import { AppError } from '../error/AppError'
 
 class UsersController {
-  async create (request: Request, response: Response) {
-    const { email, password } = request.body
-
-    const schema = yup.object().shape({
-      email: yup.string().email().required(),
-      password: yup.string().required()
-    })
-
-    try {
-      await schema.validate(request.body, { abortEarly: false })
-    } catch (err) {
-      throw new AppError(400, err, 'Error > UsersController > Validation')
-    }
-
+  async create (email: string, password: string) {
     const usersRepository = getCustomRepository(UsersRepository)
 
     const userAlreadyExists = await usersRepository.findOne({
@@ -28,14 +13,29 @@ class UsersController {
     if (userAlreadyExists) {
       throw new AppError(400, 'User already exists!', 'Error > UsersController > userAlreadyExists')
     }
-
-    const user = usersRepository.create({
-      email, password
+    const addUser = usersRepository.create({
+      email: email,
+      password: password
     })
 
-    await usersRepository.save(user)
+    return await usersRepository.save(addUser)
+  }
 
-    return response.status(201).json(user)
+  async show (email: string) {
+    const usersRepository = getCustomRepository(UsersRepository)
+    let showUser = null
+
+    if (email) {
+      showUser = await usersRepository.find({
+        email: Like(`%${email}%`)
+      })
+    } else {
+      showUser = await usersRepository.find()
+    }
+
+    if (!showUser) {
+      throw new AppError(500, 'User not found!', 'Error > UsersController > show')
+    } return showUser
   }
 }
 

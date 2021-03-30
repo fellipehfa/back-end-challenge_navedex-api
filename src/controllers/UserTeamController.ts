@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-array-constructor */
 /* eslint-disable no-var */
 /* eslint-disable camelcase */
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, Like } from 'typeorm'
 import { UserNavers } from '../models/UserNavers'
 import { NaversRepository } from '../repositories/NaversRepository'
 import { UserNaversRepository } from '../repositories/UserNaversRepository'
@@ -16,18 +16,19 @@ class UserTeamController {
 
     const userNotExists = await usersRepository.findOne({ id: user_id })
     if (!userNotExists) {
-      throw new AppError(400, 'User already exist.', 'ERROR UserTeamController > teamMaker > userNotExist')
+      throw new AppError(400, 'User does not exist.', 'ERROR UserTeamController > teamMaker > userNotExist')
     }
 
     var newArray: UserNavers[] = new Array()
-    for (const naver_id in navers) {
-      console.log(naver_id)
+    for (const naver_id of navers) {
       const naver = await naversRepository.findOne({
         where: { id: naver_id }
       })
+
       if (!naver) {
         throw new AppError(400, 'Could not create a naver', 'Error > UserTeamController> teamMaker > newArray')
       }
+
       newArray.push(userNaversRepository.create({
         user_id: user_id,
         naver_id: naver.id
@@ -35,8 +36,8 @@ class UserTeamController {
     }
     await userNaversRepository.save(newArray)
     return await usersRepository.findOne({
-      where: { id: user_id }
-      // relations: ['UserTeam']
+      where: { id: user_id },
+      relations: ['navers']
     })
   }
 }

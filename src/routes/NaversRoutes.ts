@@ -8,7 +8,6 @@ const naversController = new NaversController()
 
 naversRouter.post('/navers', async (request, response) => {
   const { naver, birthdate, admission_date, job_role } = request.body
-
   const schema = yup.object().shape({
     naver: yup.string().required(),
     birthdate: yup.string().required(),
@@ -21,13 +20,13 @@ naversRouter.post('/navers', async (request, response) => {
   } catch (err) {
     return response.status(400).json({ err: 'Error > NaverRouter > Validation' })
   }
-
   const addNaver = await naversController.create(naver, birthdate, admission_date, job_role)
   return response.status(200).json(addNaver)
 })
 
 naversRouter.get('/navers', async (request, response) => {
-  const naver = request.query.naver
+  const naver = (request.query as any).naver
+  // const naver = request.query.naver
   const showNaver = await naversController.show(naver)
   return response.status(200).json(showNaver)
 })

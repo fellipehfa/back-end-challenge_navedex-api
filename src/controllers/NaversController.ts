@@ -58,11 +58,10 @@ class NaversController {
 
     if (!deleteNaver) {
       throw new AppError(500, 'Naver not found!', 'Error > NaversController > delete')
-    } else {
-      deleteNaver.deleted_at = new Date()
-      await naversRepository.save(deleteNaver)
-      console.log('Naver soft deleted', deleteNaver)
     }
+    deleteNaver.deleted_at = new Date()
+    await naversRepository.save(deleteNaver)
+    console.log('Naver soft deleted', id)
   }
 }
 

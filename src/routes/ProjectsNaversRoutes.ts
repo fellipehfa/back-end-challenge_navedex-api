@@ -4,12 +4,12 @@ import { ProjectNaversController } from '../controllers/ProjectNaversController'
 const projectNaversRouter = Router()
 const projectNaversController = new ProjectNaversController()
 
-projectNaversRouter.post('/projects/:id/navers', async (request, response) => {
+projectNaversRouter.post('/projects/:id/projectnavers', async (request, response) => {
   const project_id: string = request.params.id
-  const { naver_id } = request.body
+  const { navers_id } = request.body
 
-  const addDocSpecialization = await projectNaversController.create(project_id, naver_id)
-  return response.status(201).json(addDocSpecialization)
+  const addNavers = await projectNaversController.create(project_id, navers_id)
+  return response.status(201).json(addNavers)
 })
 
 export { projectNaversRouter }

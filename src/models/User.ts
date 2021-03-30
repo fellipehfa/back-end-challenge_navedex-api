@@ -16,8 +16,8 @@ class User {
   @Column()
   public password: string;
 
-  @Column()
-  public jwtToken: string;
+  // @Column()
+  // public token: string;
 
   @BeforeInsert()
   @BeforeUpdate()
@@ -30,13 +30,13 @@ class User {
   @CreateDateColumn()
   created_at: Date;
 
-  // @ManyToMany(type => Navers) // , { eager: true }
-  // @JoinTable({
-  //   name: 'navers',
-  //   joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-  //   inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
-  // })
-  // Navers: Navers[];
+  @ManyToMany(type => Navers) // , { eager: true }
+  @JoinTable({
+    name: 'users_navers',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'naver_id', referencedColumnName: 'id' }
+  })
+  navers: Navers[];
 
   constructor () {
     if (!this.id) {

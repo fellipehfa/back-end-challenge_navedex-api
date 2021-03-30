@@ -19,12 +19,14 @@ export class CreateUsers1616376537642 implements MigrationInterface {
           }, {
             name: 'password',
             type: 'varchar'
-          }, {
-            name: 'jwtToken',
-            type: 'varchar',
-            default: 'null',
-            isNullable: true
-          }, {
+          },
+          // {
+          //   name: 'token',
+          //   type: 'varchar',
+          //   default: 'null',
+          //   isNullable: true
+          // },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()'

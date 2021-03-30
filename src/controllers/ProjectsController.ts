@@ -1,23 +1,9 @@
-import { Request, Response } from 'express'
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, Like } from 'typeorm'
 import { ProjectsRepository } from '../repositories/ProjectsRepository'
-import * as yup from 'yup'
 import { AppError } from '../error/AppError'
 
 class ProjectsController {
-  async create (request: Request, response: Response) {
-    const { project } = request.body
-
-    const schema = yup.object().shape({
-      project: yup.string().required()
-    })
-
-    try {
-      await schema.validate(request.body, { abortEarly: false })
-    } catch (err) {
-      throw new AppError(400, err, 'Error > ProjectsController > Validation')
-    }
-
+  async create (project: string) {
     const projectsRepository = getCustomRepository(ProjectsRepository)
 
     const projectAlreadyExists = await projectsRepository.findOne({
@@ -27,32 +13,24 @@ class ProjectsController {
     if (projectAlreadyExists) {
       throw new AppError(400, 'Project already exists!', 'Error > ProjectsController > projectAlreadyExists')
     }
-
     const addProject = projectsRepository.create({
-      project
+      project: project
     })
 
-    await projectsRepository.save(addProject)
-
-    return response.status(201).json(addProject)
+    return await projectsRepository.save(addProject)
   }
 
-  async index (request: Request, response: Response) {
+  async show (project: string) {
     const projectsRepository = getCustomRepository(ProjectsRepository)
+    let showProject = null
 
-    const all = await projectsRepository.find()
-
-    return response.json(all)
-  }
-
-  async show (request) {
-    const { project } = request.query
-
-    const projectsRepository = getCustomRepository(ProjectsRepository)
-
-    const showProject = await projectsRepository.find({
-      where: { project }
-    })
+    if (project) {
+      showProject = await projectsRepository.find({
+        project: Like(`%${project}%`)
+      })
+    } else {
+      showProject = await projectsRepository.find()
+    }
 
     if (!showProject) {
       throw new AppError(500, 'Project not found!', 'Error > ProjectsController > show')

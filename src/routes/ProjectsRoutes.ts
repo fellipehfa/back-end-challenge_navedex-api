@@ -1,15 +1,29 @@
 import { Router } from 'express'
 import { ProjectsController } from '../controllers/ProjectsController'
+import * as yup from 'yup'
 
 const projectsRouter = Router()
 const projectsController = new ProjectsController()
 
-projectsRouter.post('/projects', projectsController.create)
+projectsRouter.post('/projects', async (request, response) => {
+  const { project } = request.body
 
-projectsRouter.get('/projects', projectsController.index)
+  const schema = yup.object().shape({
+    project: yup.string().required()
+  })
+
+  try {
+    await schema.validate(request.body, { abortEarly: false })
+  } catch (err) {
+    return response.status(400).json({ err: 'Error > ProjectRouter > Validation' })
+  }
+
+  const addProject = await projectsController.create(project)
+  return response.status(200).json(addProject)
+})
 
 projectsRouter.get('/projects/', async (request, response) => {
-  const project = request.query
+  const project = (request.query as any).project
   const showProject = await projectsController.show(project)
   return response.status(200).json(showProject)
 })

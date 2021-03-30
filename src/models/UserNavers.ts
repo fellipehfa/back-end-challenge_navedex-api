@@ -1,10 +1,8 @@
 /* eslint-disable camelcase */
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
-import { Navers } from './Navers'
-import { User } from './User'
 
-@Entity('user_navers')
+@Entity('users_navers')
 class UserNavers {
   @PrimaryColumn()
   readonly id: string;
@@ -12,16 +10,8 @@ class UserNavers {
   @Column()
   user_id: string;
 
-  // @ManyToOne(() => User)
-  // @JoinColumn({ name: 'user_id' })
-  // user: User
-
   @Column()
   naver_id: string;
-
-  // @ManyToOne(() => Navers)
-  // @JoinColumn({ name: 'naver_id' })
-  // UserTeam: Navers[]
 
   constructor () {
     if (!this.id) {
